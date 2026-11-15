@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH08
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:37:37-05:00"
+notes: "Re-attested at the real time; the first stamp of 13:55 CT was entered ahead of the clock. Same criteria, same file hashes."
+signature: null
+attempt: 3
+criteria:
+  - text: "Segment sizes and holdouts are recorded as aggregates only, with no contact data."
+    met: true
+  - text: "Segments under 100 have no holdout."
+    met: true
+artifacts:
+  - artifact: "CH08-segments-v3.json"
+    sha256: "1ce78a832a581cc89cd88526e226011dd0ea8888343830e73ea89c4bbcda0e52"
+    uri: "/Users/spenchey/clawd/dealership/marketing/2026-10-chevy-campaign/audience/offer-segments-2026-10-08/segments-v3.json"

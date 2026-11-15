@@ -1,0 +1,12 @@
+# Artifact manifest. Hashes are inputs to the done-lock.
+# Written by `python -m planner record-artifact`.
+schema_version: 1
+plan_id: toyota-october-2026
+task_id: TY16
+producer: accuracy
+attempt: 1
+artifacts:
+  - artifact: "TY16-price-beside-apr-ruling.md"
+    sha256: b47a479c9dd3f533b101898d3dfca2c181d082b00ef3135be029a644474f4e71
+    size: 2139
+    uri: "pilot/evidence/TY16-price-rule-check.md"

@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH07
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:32:02-05:00"
+notes: ""
+signature: null
+attempt: 1
+criteria:
+  - text: "Story B is scheduled natively for 2026-10-14 and 2026-10-29 on the approved platforms."
+    met: true
+  - text: "The scheduled file is the Spencer-approved cut."
+    met: true
+artifacts:
+  - artifact: "CH07-schedule-receipt.md"
+    sha256: "245a2720456520a2bbdf2ddaede8ff3c9e5512c6249d0f7e5880c14a68317ced"
+    uri: "pilot/evidence/CH07-schedule-receipt.md"

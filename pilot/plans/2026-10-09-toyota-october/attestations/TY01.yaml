@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: toyota-october-2026
+task_id: TY01
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:37:37-05:00"
+notes: "Re-attested at the real time; the first stamp of 13:55 CT was entered ahead of the clock. Same criteria, same file hashes."
+signature: null
+attempt: 1
+criteria:
+  - text: "The approval record names Spencer, the date, and the exact script versions approved."
+    met: true
+  - text: "The record cites the Linear MOT-3356 comment that states the approval."
+    met: true
+artifacts:
+  - artifact: "TY01-script-approval-record.md"
+    sha256: "6a8433cfe306fe85dc356e745b3d6e2f69d1fed683ea0a56e5a5fd3a878f958c"
+    uri: "pilot/evidence/TY01-script-approval-record.md"

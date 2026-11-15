@@ -1,0 +1,12 @@
+# Artifact manifest. Hashes are inputs to the done-lock.
+# Written by `python -m planner record-artifact`.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH08
+producer: rory
+attempt: 3
+artifacts:
+  - artifact: "CH08-segments-v3.json"
+    sha256: "1ce78a832a581cc89cd88526e226011dd0ea8888343830e73ea89c4bbcda0e52"
+    size: 5228
+    uri: "/Users/spenchey/clawd/dealership/marketing/2026-10-chevy-campaign/audience/offer-segments-2026-10-08/segments-v3.json"

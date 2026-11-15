@@ -1,0 +1,113 @@
+schema_version: 1
+default_max_parallel: 4
+bots:
+  - name: coordinator
+    description: Orchestrator. The main Claude session. First contact, shapes asks, dispatches briefs,
+      owns every plan. Does not write plan.yaml.
+    capabilities:
+      - intake
+      - coordination
+      - dispatch
+    capacity: 2
+  - name: planner
+    description: Single writer of plan.yaml. One designated writer. Decomposes, estimates, assigns, replans,
+      records status and actuals.
+    capabilities:
+      - planning
+      - estimation
+      - scheduling
+    capacity: 1
+  - name: emily
+    description: Hermes profile emily on Mini 2 (local models). Stills, video direction, VO takes, email
+      design and copy drafts.
+    capabilities:
+      - creative_production
+      - still_compose
+      - email_design
+      - voice_direction
+      - copy_drafting
+    capacity: 1
+  - name: rory
+    description: Hermes profile rory on Mini 2 (local GLM). Offer facts, audience segments, Mailchimp
+      and DealerVault reads (Mini 1), reporting. Aggregates only.
+    capabilities:
+      - offer_facts
+      - audience_segments
+      - mailchimp_read
+      - reporting
+    capacity: 1
+  - name: rory-copy-seo
+    description: Hermes profile rory-copy-seo. Copy compliance passes and SEO copy.
+    capabilities:
+      - copy_compliance
+      - seo_copy
+    capacity: 1
+  - name: dev
+    description: Hermes profile dev. Code, send automation, scheduled jobs, PRs.
+    capabilities:
+      - coding
+      - send_automation
+      - email_send_ops
+    capacity: 1
+  - name: emily-qa
+    description: Hermes profile emily-qa. Runs machine gates and prepares QC evidence. It prepares; Accuracy
+      decides.
+    capabilities:
+      - gate_runs
+      - qc_prep
+    capacity: 1
+  - name: toyota-producer
+    description: Claude production agent for the Toyota October spots. Assembly, edit briefs, native scheduling.
+    capabilities:
+      - video_assembly
+      - production_coordination
+      - native_publish
+    capacity: 1
+  - name: november-producer
+    description: Claude production agent for the November films. Listed for lane awareness (Mac Studio
+      Ref2VA is busy with its finals).
+    capabilities:
+      - video_assembly
+      - production_coordination
+    capacity: 1
+  - name: chevy-coordinator
+    description: Claude production agent for the Chevy October campaign. Assembly, native scheduling,
+      attribution reports.
+    capabilities:
+      - video_assembly
+      - production_coordination
+      - native_publish
+      - reporting_ops
+      - segment_build
+    capacity: 1
+  - name: accuracy
+    description: 'Verifier. Our machine gates plus the coordinator full-size QC. The only path to done:
+      only Accuracy attests, then the Planner records done.'
+    capabilities:
+      - verification
+      - fact_check
+      - frame_qc
+      - full_size_qc
+      - listen_qc
+    capacity: 2
+  - name: gpu-cb87
+    description: GPU lane, not a person. spark-cb87 media lease, one unit at a time (never :8189, release
+      by 21:50 CT). Capacity 1.
+    capabilities:
+      - gpu_cb87
+      - gpu_render
+    capacity: 1
+  - name: gpu-studio
+    description: GPU lane, not a person. Mac Studio, 24/7 render node, one GPU job at a time. Capacity
+      1.
+    capabilities:
+      - gpu_studio
+      - gpu_render
+    capacity: 1
+  - name: spencer
+    description: Human gate. Spencer's approvals only. Silence, a reaction, or a relayed approval from
+      an agent does not count.
+    capabilities:
+      - human_approval
+    capacity: 1
+    kind: human

@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: toyota-october-2026
+task_id: TY02
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:37:37-05:00"
+notes: "Re-attested at the real time; the first stamp of 13:55 CT was entered ahead of the clock. Same criteria, same file hashes."
+signature: null
+attempt: 1
+criteria:
+  - text: "The approval record quotes Spencer's words and the time."
+    met: true
+  - text: "The record names the VO script file and states that Feet Off carries the new lines."
+    met: true
+artifacts:
+  - artifact: "TY02-vo-approval-record.md"
+    sha256: f846bfcfae28c370270ccf63776e366345f001ad753360e3014b934de396ea13
+    uri: "pilot/evidence/TY02-vo-approval-record.md"

@@ -1,0 +1,12 @@
+# Artifact manifest. Hashes are inputs to the done-lock.
+# Written by `python -m planner record-artifact`.
+schema_version: 1
+plan_id: toyota-october-2026
+task_id: TY02
+producer: spencer
+attempt: 1
+artifacts:
+  - artifact: "TY02-vo-approval-record.md"
+    sha256: f846bfcfae28c370270ccf63776e366345f001ad753360e3014b934de396ea13
+    size: 831
+    uri: "pilot/evidence/TY02-vo-approval-record.md"

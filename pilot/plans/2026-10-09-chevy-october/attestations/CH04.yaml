@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH04
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:37:37-05:00"
+notes: "Re-attested at the real time; the first stamp of 13:55 CT was entered ahead of the clock. Same criteria, same file hashes."
+signature: null
+attempt: 2
+criteria:
+  - text: "edit_brief_check reports 0 errors in both aspects."
+    met: true
+  - text: "The candidate cuts and SHA256SUMS are delivered and the sums match the files."
+    met: true
+artifacts:
+  - artifact: "CH04-DELIVERY-NOTES.md"
+    sha256: "3b6a55278c4ef8965bca59119df35a7ab5b0fc85d6dafe74ba22e62e5d007de5"
+    uri: "/Users/spenchey/clawd/dealership/marketing/2026-10-chevy-campaign/creative/story-b/rebuild-v3/cut/final/DELIVERY-NOTES.md"

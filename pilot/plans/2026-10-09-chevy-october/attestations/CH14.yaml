@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH14
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:37:30-05:00"
+notes: ""
+signature: null
+attempt: 1
+criteria:
+  - text: "Spencer's explicit approval of the final Chevy email packet and the timestamp are recorded."
+    met: true
+  - text: "The approved packet version and sha256 are recorded."
+    met: true
+artifacts:
+  - artifact: "CH14-chevy-email-packet-approval.md"
+    sha256: "7cb320ce94fb319dc2822d87ad6efa1ac5274dfdc064479ecafb6b092ea4211c"
+    uri: "pilot/evidence/CH14-chevy-email-packet-approval.md"

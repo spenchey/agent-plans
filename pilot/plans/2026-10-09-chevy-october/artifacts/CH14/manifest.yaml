@@ -1,0 +1,12 @@
+# Artifact manifest. Hashes are inputs to the done-lock.
+# Written by `python -m planner record-artifact`.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH14
+producer: spencer
+attempt: 1
+artifacts:
+  - artifact: "CH14-chevy-email-packet-approval.md"
+    sha256: "7cb320ce94fb319dc2822d87ad6efa1ac5274dfdc064479ecafb6b092ea4211c"
+    size: 678
+    uri: "pilot/evidence/CH14-chevy-email-packet-approval.md"

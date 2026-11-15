@@ -1,0 +1,926 @@
+schema_version: 1
+plan_id: chevy-october-2026
+version: 16
+title: Chevy October 2026
+priority: 1
+goal: Finish Story B (approved cut, posts scheduled 10/14 and 10/29), arm the Chevy emails for the first
+  send on 2026-10-13 at 10:00 CT, and report attribution weekly.
+owner: coordinator
+definition_of_done: Story B is approved and its schedule is attested, the Chevy emails are verified armed
+  before 2026-10-13 10:00 CT, and the first Monday attribution report is posted. Linear cards MOT-3448,
+  MOT-3449, MOT-3398, MOT-3392 and MOT-3451 stay the system of record.
+budget:
+  tokens: 0
+  hours: 100
+  usd: 0
+human_approval_policy: 'Spencer approves, first-hand in chat or on the Linear card, every script, final
+  video, subject line, email packet, and any rule change before it is used. Silence, a reaction, or a
+  relayed approval from an agent does not count. While a gate is open, hold the work it blocks; work it
+  does not block continues. Linear stays the system of record: task titles carry the MOT card id, and
+  this plan never creates or edits Linear cards. Local models first; no cloud credits without a per-generation
+  OK.'
+constraints:
+  deadline: '2026-10-13T10:00:00-05:00'
+  max_parallel: 4
+  schedule_origin: '2026-10-09T13:30:00-05:00'
+provided_inputs: []
+deliverables:
+  - CH06-story-b-approval.md
+  - CH07-schedule-receipt.md
+  - CH18-first-attribution-report.md
+  - CH19-milestone.md
+  - CH25-calendar-sync-check.md
+tasks:
+  - id: CH01
+    title: '[MOT-3448] Story B stills v3 (six stills, native 16:9 and 9:16) through coordinator full-size
+      QC'
+    section: Stills
+    task_type: still_compose
+    objective: 'Qwen-Image-2.1 multi-ref compose on cb87 (VDP photo, father and son refs, Blender layout).
+      Notes in STILLS-QC.md. Rejected on the way: S1 v1 to v3, S4 v1 to v2.'
+    inputs: []
+    outputs:
+      - artifact: CH01-STILLS-QC.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 4
+      likely: 7
+      pessimistic: 10
+    required_capabilities:
+      - creative_production
+      - still_compose
+    assignee: emily
+    acceptance_criteria:
+      - All six stills pass coordinator full-size QC.
+      - STILLS-QC.md records the rejects and the fixes.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 15.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-08T19:59:00-05:00'
+      end: '2026-10-09T03:10:00-05:00'
+      hours: 7.2
+      attempts: 3
+  - id: CH02
+    title: '[MOT-3448] Story B H3 motion takes and full-quality re-renders (UNLOCKED)'
+    section: Motion
+    task_type: gpu_render
+    objective: 'H3 drafts, then full-quality re-renders pre-rendered UNLOCKED via tier_overrides. All
+      takes pass geometry (motorinn-studio #121) and video_qc.'
+    inputs:
+      - artifact: CH01-STILLS-QC.md
+        from_task: CH01
+    outputs:
+      - artifact: CH02-motion-takes-manifest.json
+        type: json
+    depends_on:
+      - CH01
+    estimate_hours:
+      optimistic: 4
+      likely: 6
+      pessimistic: 9
+    required_capabilities:
+      - gpu_cb87
+    assignee: gpu-cb87
+    acceptance_criteria:
+      - All takes pass geometry and video_qc.
+      - The lease is released and no process is left on cb87.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 13.5
+      usd: 0
+    max_retries: 2
+    status: in_review
+    actuals:
+      start: '2026-10-09T03:15:00-05:00'
+      end: null
+      hours: null
+      attempts: 2
+  - id: CH03
+    title: '[MOT-3448] H1 16:9 retake on a new seed (the full re-render dropped the broom)'
+    section: Motion
+    task_type: gpu_render
+    objective: Retake queued on a new seed to replace the draft-tier Super Scale H1 16:9. Strict Chevy/Toyota
+      alternation on cb87.
+    inputs:
+      - artifact: CH02-motion-takes-manifest.json
+        from_task: CH02
+    outputs:
+      - artifact: CH03-h1-retake.json
+        type: json
+    depends_on:
+      - CH02
+    estimate_hours:
+      optimistic: 0.5
+      likely: 0.75
+      pessimistic: 1.5
+    required_capabilities:
+      - gpu_cb87
+    assignee: gpu-cb87
+    acceptance_criteria:
+      - The H1 16:9 take keeps every prop and passes geometry and video_qc.
+      - The lease is released and no process is left on cb87.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 2.25
+      usd: 0
+    max_retries: 2
+    status: cancelled
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH04
+    title: '[MOT-3448] Final cuts assembled (16:9 and 9:16, 20.2 s)'
+    section: Assembly
+    task_type: video_assembly
+    objective: 'rebuild-v3/cut/final: candidate cuts, DELIVERY-NOTES.md, edit_brief JSONs, SHA256SUMS.
+      End card on the #120 hierarchy ($62,855 above ''or 0% APR for 60 months*'' above badge, phone, GM
+      legal), legible at 390 px; audio about -14.6 LUFS, no music, no Emily VO.'
+    inputs:
+      - artifact: CH02-motion-takes-manifest.json
+        from_task: CH02
+    outputs:
+      - artifact: CH04-DELIVERY-NOTES.md
+        type: markdown
+    depends_on:
+      - CH02
+    estimate_hours:
+      optimistic: 2
+      likely: 3
+      pessimistic: 5
+    required_capabilities:
+      - video_assembly
+    assignee: chevy-coordinator
+    acceptance_criteria:
+      - edit_brief_check reports 0 errors in both aspects.
+      - The candidate cuts and SHA256SUMS are delivered and the sums match the files.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 7.5
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-09T05:15:00-05:00'
+      end: '2026-10-09T07:50:00-05:00'
+      hours: 2.6
+      attempts: 2
+  - id: CH05
+    title: '[MOT-3448] Coordinator full-size QC of the final candidates after the H1 retake'
+    section: QC
+    task_type: full_size_qc
+    objective: Watch both aspects at full size with sound; confirm the H1 retake keeps every prop; father
+      and son H3 voices flagged for Spencer's ear (A1).
+    inputs:
+      - artifact: CH03-h1-retake.json
+        from_task: CH03
+      - artifact: CH04-DELIVERY-NOTES.md
+        from_task: CH04
+    outputs:
+      - artifact: CH05-final-candidate-qc.md
+        type: markdown
+    depends_on:
+      - CH03
+      - CH04
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - full_size_qc
+    assignee: accuracy
+    acceptance_criteria:
+      - Both aspects passed a full-size viewing with sound by the coordinator.
+      - The H1 retake replaces the draft-tier H1.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: cancelled
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH06
+    title: Spencer approves the Story B final cut and the father and son voices
+    section: Approvals
+    task_type: approval_gate
+    objective: Candidates are UNLOCKED, not approved, not for ship. Spencer approves, or names changes.
+      Includes the father and son raw H3 voices that need his ear (A1) and the end card hierarchy.
+    inputs:
+      - artifact: CH04-DELIVERY-NOTES.md
+        from_task: CH04
+    outputs:
+      - artifact: CH06-story-b-approval.md
+        type: markdown
+    depends_on:
+      - CH04
+    estimate_hours:
+      optimistic: 0.25
+      likely: 4
+      pessimistic: 24
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer's explicit approval of the Story B cut and the timestamp are recorded.
+      - The approved file names and sha256 sums are recorded.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 36.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-09T09:30:00-05:00'
+      end: '2026-10-09T09:45:00-05:00'
+      hours: 0.25
+      attempts: 1
+  - id: CH07
+    title: Story B posts scheduled natively for 10/14 and 10/29
+    section: Publish
+    task_type: native_publish
+    objective: Coordinator ran the native scheduling 2026-10-09 (FB reels 4569692059963610 and 1115103610883580,
+      YT KwcO9vT-5wM and 8-jBKqrRlnk, IG one-shots plus guards on Mini 1). Receipt in evidence/CH07-schedule-receipt.md.
+      Calendar sync is tracked as CH25.
+    inputs:
+      - artifact: CH04-DELIVERY-NOTES.md
+        from_task: CH04
+    outputs:
+      - artifact: CH07-schedule-receipt.md
+        type: markdown
+    depends_on:
+      - CH04
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - native_publish
+    assignee: chevy-coordinator
+    acceptance_criteria:
+      - Story B is scheduled natively for 2026-10-14 and 2026-10-29 on the approved platforms.
+      - The scheduled file is the Spencer-approved cut.
+    risk: high
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-09T12:54:00-05:00'
+      end: '2026-10-09T13:00:00-05:00'
+      hours: 0.1
+      attempts: 1
+  - id: CH08
+    title: '[MOT-3449] Chevy segments, holdouts and calendar v3 (Rory)'
+    section: Email
+    task_type: audience_segments
+    objective: 'Cleaned/unsubscribed join, import of 274 tagged, arm-level segments with holdouts: silverado-broad
+      1,579 (158), silverado-owner 116 (12), silverado-service 65, equinox-owner 73, equinox-service 91,
+      colorado-owner 26, colorado-service 28, trax 12; calendar v3/v4. Aggregates only.'
+    inputs: []
+    outputs:
+      - artifact: CH08-segments-v3.json
+        type: json
+    depends_on: []
+    estimate_hours:
+      optimistic: 3
+      likely: 6
+      pessimistic: 10
+    required_capabilities:
+      - audience_segments
+    assignee: rory
+    acceptance_criteria:
+      - Segment sizes and holdouts are recorded as aggregates only, with no contact data.
+      - Segments under 100 have no holdout.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 15.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-08T14:59:00-05:00'
+      end: '2026-10-08T20:40:00-05:00'
+      hours: 5.7
+      attempts: 3
+  - id: CH09
+    title: '[MOT-3398] Targeted Chevy email drafts per segment with follow-ups (Emily plus Jeeves)'
+    section: Email
+    task_type: email_design
+    objective: 'Per segment: subject (top pick plus 2 alternates), audience, verified offer wording, CTA,
+      full disclosures; follow-ups fu-nonopen/open/hot/click plus owner variants. Proof packet v2 and
+      subject rewrites of 10/9 09:15 exist.'
+    inputs:
+      - artifact: CH08-segments-v3.json
+        from_task: CH08
+    outputs:
+      - artifact: CH09-chevy-email-packet.md
+        type: markdown
+    depends_on:
+      - CH08
+    estimate_hours:
+      optimistic: 3
+      likely: 5
+      pessimistic: 9
+    required_capabilities:
+      - email_design
+      - copy_drafting
+    assignee: emily
+    acceptance_criteria:
+      - Every segment has a draft, a top subject and 2 alternates, verified offer wording and full disclosures.
+      - UTMs are on every link and the sender is noreply@motorinnmail.com.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 13.5
+      usd: 0
+    max_retries: 2
+    status: in_review
+    actuals:
+      start: '2026-10-08T14:55:00-05:00'
+      end: null
+      hours: null
+      attempts: 2
+  - id: CH10
+    title: '[MOT-3392] Final compliance pass on the Chevy emails (GM Financial terms, disclosures, VINs)'
+    section: Email
+    task_type: copy_compliance
+    objective: Verify GM terms, disclosure wording, payment example math, qualifying VINs, stacking rules;
+      confirm each stock is still active on its live VDP.
+    inputs:
+      - artifact: CH09-chevy-email-packet.md
+        from_task: CH09
+    outputs:
+      - artifact: CH10-chevy-email-compliance-qa.md
+        type: markdown
+    depends_on:
+      - CH09
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 4
+    required_capabilities:
+      - copy_compliance
+    assignee: rory-copy-seo
+    acceptance_criteria:
+      - Every APR, term, price and end date matches the GM terms and the live VDP.
+      - Cash and APR are never presented as combinable.
+      - No unsupported history, popularity or aging language appears.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH11
+    title: '[MOT-3451] Send, poll, follow-up and report automation for Chevy (build only)'
+    section: Email
+    task_type: send_automation
+    objective: 'Same build as Toyota (PR #777 presend live-VDP price check, #778 data-driven runtime),
+      Eve passed, held unmerged until Spencer''s packet OK.'
+    inputs: []
+    outputs:
+      - artifact: CH11-send-automation-pr.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 3
+      likely: 6
+      pessimistic: 12
+    required_capabilities:
+      - send_automation
+      - coding
+    assignee: dev
+    acceptance_criteria:
+      - Send, poll, follow-up and report jobs exist for Chevy and arm nothing.
+      - The presend live-VDP price check blocks a stale price.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 18.0
+      usd: 0
+    max_retries: 2
+    status: in_review
+    actuals:
+      start: '2026-10-08T17:00:00-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: CH12
+    title: '[MOT-3398] Coordinator full-size QC of the Chevy email packet'
+    section: Email
+    task_type: full_size_qc
+    objective: 'Open every send file and follow-up at phone width: address, merge fields, UTMs, fine print,
+      links, holdout and suppression.'
+    inputs:
+      - artifact: CH09-chevy-email-packet.md
+        from_task: CH09
+      - artifact: CH10-chevy-email-compliance-qa.md
+        from_task: CH10
+    outputs:
+      - artifact: CH12-chevy-email-coordinator-qc.md
+        type: markdown
+    depends_on:
+      - CH09
+      - CH10
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - full_size_qc
+      - fact_check
+    assignee: accuracy
+    acceptance_criteria:
+      - Every send file and follow-up was opened at phone width and passes.
+      - Links resolve with the correct UTMs and the sender is noreply@motorinnmail.com.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH13
+    title: Spencer picks the Chevy and Toyota email subject lines
+    section: Approvals
+    task_type: approval_gate
+    objective: reports/SUBJECT_PICKS_for_Spencer.md. Spencer replies 'approve all' or names the ones to
+      change.
+    inputs: []
+    outputs:
+      - artifact: CH13-subject-picks-approval.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 0.1
+      likely: 2
+      pessimistic: 12
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer's explicit pick for each subject line and the timestamp are recorded.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 18.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-09T09:17:00-05:00'
+      end: '2026-10-09T13:00:00-05:00'
+      hours: 0.25
+      attempts: 1
+  - id: CH14
+    title: Spencer approves the final Chevy email packet
+    section: Approvals
+    task_type: approval_gate
+    objective: 'One final packet states exactly what Spencer is approving: subjects, send files, follow-up
+      set, segments and holdouts, send dates. Nothing is sent without this approval.'
+    inputs:
+      - artifact: CH08-segments-v3.json
+        from_task: CH08
+      - artifact: CH12-chevy-email-coordinator-qc.md
+        from_task: CH12
+      - artifact: CH13-subject-picks-approval.md
+        from_task: CH13
+    outputs:
+      - artifact: CH14-chevy-email-packet-approval.md
+        type: markdown
+    depends_on:
+      - CH08
+      - CH12
+      - CH13
+    estimate_hours:
+      optimistic: 0.25
+      likely: 4
+      pessimistic: 24
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer's explicit approval of the final Chevy email packet and the timestamp are recorded.
+      - The approved packet version and sha256 are recorded.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 36.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: "2026-10-09T13:06:00-05:00"
+      end: "2026-10-09T13:10:00-05:00"
+      hours: 0.1
+      attempts: 1
+  - id: CH15
+    title: 'Arm the Chevy sends: first send 10/13 at 10:00 CT'
+    section: Email
+    task_type: email_send_ops
+    objective: 'Merge PR #777/#778 after the packet OK, then schedule the Mailchimp sends and arm the
+      poll, follow-up and report launchd jobs for the first send 2026-10-13 10:00 CT, Chevy inside the
+      550 a day shared cap.'
+    inputs:
+      - artifact: CH14-chevy-email-packet-approval.md
+        from_task: CH14
+      - artifact: CH11-send-automation-pr.md
+        from_task: CH11
+      - artifact: CH22-dry-run-pass.md
+        from_task: CH22
+    outputs:
+      - artifact: CH15-chevy-arm-receipt.md
+        type: markdown
+    depends_on:
+      - CH14
+      - CH11
+      - CH22
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 4
+    required_capabilities:
+      - email_send_ops
+    assignee: dev
+    acceptance_criteria:
+      - The first Chevy send is scheduled for 2026-10-13 10:00 CT.
+      - The 10 percent holdout, suppression and UTMs are in place on the scheduled send.
+      - The poll, follow-up and report jobs are armed.
+    risk: high
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH16
+    title: Verify the Chevy sends are armed
+    section: Email
+    task_type: verification
+    objective: Read back the Mailchimp schedule and the launchd jobs; compare to the approved packet.
+    inputs:
+      - artifact: CH15-chevy-arm-receipt.md
+        from_task: CH15
+    outputs:
+      - artifact: CH16-chevy-arm-verification.md
+        type: markdown
+    depends_on:
+      - CH15
+    estimate_hours:
+      optimistic: 0.25
+      likely: 0.5
+      pessimistic: 1
+    required_capabilities:
+      - verification
+    assignee: accuracy
+    acceptance_criteria:
+      - The scheduled send time, audience, holdout and subject match the approved packet.
+      - The follow-up and report jobs are loaded.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 1.5
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH17
+    title: '[MOT-3451] Attribution report job for Chevy and Toyota'
+    section: Reporting
+    task_type: reporting_ops
+    objective: Opens, clicks, VDP visits by UTM, holdout versus mailed, follow-up performance; aggregates
+      only; weekly Monday; separates exposure lift from sale contribution.
+    inputs:
+      - artifact: CH15-chevy-arm-receipt.md
+        from_task: CH15
+    outputs:
+      - artifact: CH17-report-job.md
+        type: markdown
+    depends_on:
+      - CH15
+    estimate_hours:
+      optimistic: 2
+      likely: 3
+      pessimistic: 6
+    required_capabilities:
+      - send_automation
+      - coding
+    assignee: dev
+    acceptance_criteria:
+      - The report job runs on the schedule and posts aggregates only.
+      - The report separates exposure lift from sale contribution.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 9.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH18
+    title: First Monday attribution report posted (2026-10-19)
+    section: Reporting
+    task_type: reporting_ops
+    objective: Run the report job, check the numbers against GA4 and Mailchimp, post to Spencer. Plain
+      statement when a post drove views on a unit that did not sell.
+    inputs:
+      - artifact: CH17-report-job.md
+        from_task: CH17
+    outputs:
+      - artifact: CH18-first-attribution-report.md
+        type: markdown
+    depends_on:
+      - CH17
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - reporting_ops
+    assignee: chevy-coordinator
+    acceptance_criteria:
+      - The report posted with aggregates only and the lift versus sale split.
+      - Numbers were checked against the source systems.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH19
+    title: 'Milestone: Chevy emails armed before the first send'
+    section: Milestones
+    task_type: milestone
+    objective: Marker. Chevy emails are verified armed ahead of 2026-10-13 10:00 CT.
+    inputs:
+      - artifact: CH16-chevy-arm-verification.md
+        from_task: CH16
+    outputs:
+      - artifact: CH19-milestone.md
+        type: markdown
+    depends_on:
+      - CH16
+    estimate_hours:
+      optimistic: 0
+      likely: 0
+      pessimistic: 0
+    required_capabilities:
+      - coordination
+    assignee: coordinator
+    acceptance_criteria:
+      - Chevy emails are verified armed ahead of the first send.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 0.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH20
+    title: Rebuild the Mailchimp segment tags and holdouts after the failed 10/13 dry run
+    section: Email
+    task_type: audience_segments
+    objective: 'The 10/13 dry run failed: Mailchimp segment tags missing, holdout empty. The chevy-coordinator
+      rebuilds the segments from segments-v3.json (aggregates only; Mini 1 holds the credentials).'
+    inputs:
+      - artifact: CH08-segments-v3.json
+        from_task: CH08
+    outputs:
+      - artifact: CH20-segment-rebuild-receipt.md
+        type: markdown
+    depends_on:
+      - CH08
+    estimate_hours:
+      optimistic: 2
+      likely: 4
+      pessimistic: 8
+    required_capabilities:
+      - segment_build
+    assignee: chevy-coordinator
+    acceptance_criteria:
+      - Every segment has its Mailchimp tag and a non-empty holdout where the segment has 100 or more
+        contacts.
+      - Segment counts match segments-v3.json and no segment under 100 has a holdout.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 12.0
+      usd: 0
+    max_retries: 2
+    status: in_progress
+    actuals:
+      start: '2026-10-09T13:31:49-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: CH21
+    title: Code PR that enforces the daily and per-person send caps
+    section: Email
+    task_type: send_automation
+    objective: The 10/13 dry run showed the caps were not enforced. Enforce 550 a day for Chevy plus Toyota,
+      100 or more a day held for tire under the 750 global cap, and 2 per person per 7 days, in code with
+      tests.
+    inputs: []
+    outputs:
+      - artifact: CH21-send-caps-pr.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 2
+      likely: 4
+      pessimistic: 8
+    required_capabilities:
+      - send_automation
+      - coding
+    assignee: dev
+    acceptance_criteria:
+      - The daily and per-person caps are enforced by code and covered by tests.
+      - A send over a cap is blocked and logged.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 12.0
+      usd: 0
+    max_retries: 2
+    status: in_progress
+    actuals:
+      start: '2026-10-09T13:31:49-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: CH22
+    title: Re-run the 10/13 dry run until it passes
+    section: Email
+    task_type: send_automation
+    objective: Run the dry run again once the segment tags, holdouts and caps are in. It must pass before
+      anything is armed.
+    inputs:
+      - artifact: CH20-segment-rebuild-receipt.md
+        from_task: CH20
+      - artifact: CH21-send-caps-pr.md
+        from_task: CH21
+    outputs:
+      - artifact: CH22-dry-run-pass.md
+        type: markdown
+    depends_on:
+      - CH20
+      - CH21
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 3
+    required_capabilities:
+      - email_send_ops
+    assignee: dev
+    acceptance_criteria:
+      - The dry run shows segment tags present, holdouts filled and caps enforced.
+      - Counts per segment match the approved packet.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: CH25
+    title: Story B posts show in the social calendar (social-calendar sync)
+    section: Publish
+    task_type: native_publish
+    objective: 'native-publish step: the social-calendar sync (Mini 1 launchd job, not Spencer''s Google
+      Calendar) records the Story B schedules. Receipt: Mini 1 ~/clawd/data/logs/no-model/social-calendar-sync-20261009.log,
+      "created=2" after each YouTube schedule.'
+    inputs:
+      - artifact: CH07-schedule-receipt.md
+        from_task: CH07
+    outputs:
+      - artifact: CH25-calendar-sync-check.md
+        type: markdown
+    depends_on:
+      - CH07
+    estimate_hours:
+      optimistic: 0.1
+      likely: 0.25
+      pessimistic: 0.5
+    required_capabilities:
+      - native_publish
+    assignee: chevy-coordinator
+    acceptance_criteria:
+      - The social-calendar sync log shows events created after each Story B YouTube schedule and after
+        the Instagram jobs were loaded, with errors=0.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 0.75
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: "2026-10-09T12:58:00-05:00"
+      end: "2026-10-09T13:07:00-05:00"
+      hours: 0.1
+      attempts: 1

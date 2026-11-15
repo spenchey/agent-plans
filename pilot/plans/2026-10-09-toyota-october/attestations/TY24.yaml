@@ -1,0 +1,18 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: toyota-october-2026
+task_id: TY24
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:32:02-05:00"
+notes: ""
+signature: null
+attempt: 1
+criteria:
+  - text: "Spencer's explicit pick for each subject line and the timestamp are recorded."
+    met: true
+artifacts:
+  - artifact: "TY24-subject-picks-approval.md"
+    sha256: "375fc4c4882198eef4e7624668cde5b31a06069651a18448b94869c7e0ae68c9"
+    uri: "pilot/evidence/TY24-subject-picks-approval.md"

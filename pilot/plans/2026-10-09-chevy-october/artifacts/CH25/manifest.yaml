@@ -1,0 +1,12 @@
+# Artifact manifest. Hashes are inputs to the done-lock.
+# Written by `python -m planner record-artifact`.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH25
+producer: chevy-coordinator
+attempt: 1
+artifacts:
+  - artifact: "CH25-calendar-sync-check.md"
+    sha256: "68be8e280f2f0665a05c4318d2b515ae581b5783725684add544bfebbec6e675"
+    size: 937
+    uri: "pilot/evidence/CH25-calendar-sync-check.md"

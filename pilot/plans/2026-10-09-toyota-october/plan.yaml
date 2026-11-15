@@ -1,0 +1,1335 @@
+schema_version: 1
+plan_id: toyota-october-2026
+version: 10
+title: Toyota October 2026
+priority: 2
+goal: Rebuild the three Toyota October videos (Not a Drop, Group Chat, Feet Off) with the approved Emily
+  VO, get Spencer's final approval, schedule the posts natively, and arm the Toyota emails for the first
+  send on 2026-10-13 at 13:00 CT.
+owner: coordinator
+definition_of_done: Three approved videos are scheduled natively, the Toyota emails are verified armed
+  before 2026-10-13 13:00 CT, and reporting is armed. Linear cards MOT-3356, MOT-3449, MOT-3450 and MOT-3451
+  stay the system of record.
+budget:
+  tokens: 0
+  hours: 120
+  usd: 0
+human_approval_policy: 'Spencer approves, first-hand in chat or on the Linear card, every script, final
+  video, subject line, email packet, and any rule change before it is used. Silence, a reaction, or a
+  relayed approval from an agent does not count. While a gate is open, hold the work it blocks; work it
+  does not block continues. Linear stays the system of record: task titles carry the MOT card id, and
+  this plan never creates or edits Linear cards. Local models first; no cloud credits without a per-generation
+  OK.'
+constraints:
+  deadline: '2026-10-13T13:00:00-05:00'
+  max_parallel: 4
+  schedule_origin: '2026-10-09T13:30:00-05:00'
+provided_inputs: []
+deliverables:
+  - TY19-schedule-receipt.md
+  - TY29-toyota-report-job.md
+  - TY30-milestone.md
+  - TY32-ssh-config-confirmation.md
+  - TY33-rory-cache-cleanup-confirmation.md
+tasks:
+  - id: TY01
+    title: '[MOT-3356] Spencer approves the three Toyota scripts (Not a Drop, Group Chat, Feet Off)'
+    section: Approvals
+    task_type: approval_gate
+    objective: 'Record Spencer''s script approval of 2026-10-08 (scripts v2 for Not a Drop and Group Chat;
+      Concept A Feet Off). Evidence: Linear MOT-3356 milestone comment ''production started on the approved
+      scripts'' and reports/TOYOTA_VIDEO_SCRIPTS_v2.md.'
+    inputs: []
+    outputs:
+      - artifact: TY01-script-approval-record.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 0.1
+      likely: 0.25
+      pessimistic: 0.5
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - The approval record names Spencer, the date, and the exact script versions approved.
+      - The record cites the Linear MOT-3356 comment that states the approval.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 0.75
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-08T14:00:00-05:00'
+      end: '2026-10-08T14:15:00-05:00'
+      hours: 0.25
+      attempts: 1
+  - id: TY02
+    title: '[MOT-3356] Spencer approves the Emily voice-over scripts'
+    section: Approvals
+    task_type: approval_gate
+    objective: 'Record Spencer''s VO approval of 2026-10-09 about 09:40 CT (verbatim ''approve the vo
+      scripts'', relayed by the coordinator first-hand). Evidence: reports/TOYOTA_VO_SCRIPTS.md status
+      block.'
+    inputs: []
+    outputs:
+      - artifact: TY02-vo-approval-record.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 0.1
+      likely: 0.25
+      pessimistic: 0.5
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - The approval record quotes Spencer's words and the time.
+      - The record names the VO script file and states that Feet Off carries the new lines.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 0.75
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-09T09:30:00-05:00'
+      end: '2026-10-09T09:45:00-05:00'
+      hours: 0.25
+      attempts: 1
+  - id: TY03
+    title: '[MOT-3356] Start-frame stills v4 selected for all three spots'
+    section: Stills
+    task_type: still_compose
+    objective: One Qwen-2.1 multi-ref compose per still on corrected plates (nightly method), native 9:16.
+      Selects live in toyota-oct/stills/selects_v4. Needs coordinator full-size QC before it is called
+      done.
+    inputs:
+      - artifact: TY01-script-approval-record.md
+        from_task: TY01
+    outputs:
+      - artifact: TY03-stills-v4-selects.json
+        type: json
+    depends_on:
+      - TY01
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 4
+    required_capabilities:
+      - creative_production
+      - still_compose
+    assignee: emily
+    acceptance_criteria:
+      - Every still is one multi-ref compose, with no pasted cut-outs.
+      - Truck scale, hands, head ratio and sign text pass full-size QC.
+      - Selects and sha256 sums are recorded.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: in_review
+    actuals:
+      start: '2026-10-09T04:07:00-05:00'
+      end: null
+      hours: null
+      attempts: 4
+  - id: TY04
+    title: '[MOT-3356] Render the approved Emily VO takes (tuned locked-voice route)'
+    section: Audio
+    task_type: voice_render
+    objective: ChatterboxTTS tuned route, 3 seeds per line, picked by pitch movement and pacing, checked
+      by two ASR models and voice match. Output in toyota-oct/audio/vo_v4. End tag runs about 1 s longer.
+    inputs:
+      - artifact: TY02-vo-approval-record.md
+        from_task: TY02
+    outputs:
+      - artifact: TY04-vo-v4-picks.json
+        type: json
+    depends_on:
+      - TY02
+    estimate_hours:
+      optimistic: 1
+      likely: 1.5
+      pessimistic: 3
+    required_capabilities:
+      - voice_direction
+    assignee: emily
+    acceptance_criteria:
+      - Every approved line has a picked take with ASR and voice-match results.
+      - The end tag read fits at a natural pace.
+      - No AI-disclosure line, no aging or popularity language, phone 712-792-5000 only.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: in_review
+    actuals:
+      start: '2026-10-09T09:48:00-05:00'
+      end: null
+      hours: null
+      attempts: 2
+  - id: TY05
+    title: '[MOT-3356] A person listens to every VO take before it goes in a cut'
+    section: Audio
+    task_type: listen_qc
+    objective: 'Coordinator listens to each picked take: pronunciation (TUN-druh, CARE-ul, four-runner,
+      letter-by-letter A-P-R and U-S-B-C), pacing, no robotic artifacts.'
+    inputs:
+      - artifact: TY04-vo-v4-picks.json
+        from_task: TY04
+    outputs:
+      - artifact: TY05-vo-listen-notes.md
+        type: markdown
+    depends_on:
+      - TY04
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - listen_qc
+    assignee: accuracy
+    acceptance_criteria:
+      - Every picked VO take was listened to by a person and passes pronunciation and pacing.
+      - Failing lines are re-rolled before assembly.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY06
+    title: '[MOT-3356] H3 finals on cb87: Not a Drop'
+    section: Motion
+    task_type: gpu_render
+    objective: 'Full-quality H3 fl2va finals (bf16, 30 steps, 736x1312) for the Not a Drop shots that
+      need generative motion; lock-plate shots built in the edit. cb87 lease rules: one unit, never :8189,
+      release by 21:50 CT, alternate with Chevy.'
+    inputs:
+      - artifact: TY03-stills-v4-selects.json
+        from_task: TY03
+    outputs:
+      - artifact: TY06-nd-finals-manifest.json
+        type: json
+    depends_on:
+      - TY03
+    estimate_hours:
+      optimistic: 1
+      likely: 1.5
+      pessimistic: 3
+    required_capabilities:
+      - gpu_cb87
+    assignee: gpu-cb87
+    acceptance_criteria:
+      - Every Not a Drop shot has a final-tier take that passes video_qc.
+      - The lease is released and no process is left on cb87.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: in_progress
+    actuals:
+      start: '2026-10-09T12:26:00-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: TY07
+    title: '[MOT-3356] H3 finals on cb87: The Group Chat'
+    section: Motion
+    task_type: gpu_render
+    objective: Full-quality H3 finals for the Group Chat shots. Queued behind Not a Drop and Feet Off
+      in the Chevy/Toyota alternation. Group Chat video-model audio stays muted except Emily's one on-camera
+      line.
+    inputs:
+      - artifact: TY03-stills-v4-selects.json
+        from_task: TY03
+    outputs:
+      - artifact: TY07-gc-finals-manifest.json
+        type: json
+    depends_on:
+      - TY03
+    estimate_hours:
+      optimistic: 1
+      likely: 1.5
+      pessimistic: 3
+    required_capabilities:
+      - gpu_cb87
+    assignee: gpu-cb87
+    acceptance_criteria:
+      - Every Group Chat shot has a final-tier take that passes video_qc.
+      - Model audio is muted on every shot except Emily's scripted on-camera line.
+      - The lease is released and no process is left on cb87.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY08
+    title: '[MOT-3356] H3 finals on cb87: Feet Off'
+    section: Motion
+    task_type: gpu_render
+    objective: Full-quality H3 finals for the Feet Off shots (Crawl Control story).
+    inputs:
+      - artifact: TY03-stills-v4-selects.json
+        from_task: TY03
+    outputs:
+      - artifact: TY08-fo-finals-manifest.json
+        type: json
+    depends_on:
+      - TY03
+    estimate_hours:
+      optimistic: 1
+      likely: 1.5
+      pessimistic: 3
+    required_capabilities:
+      - gpu_cb87
+    assignee: gpu-cb87
+    acceptance_criteria:
+      - Every Feet Off shot has a final-tier take that passes video_qc.
+      - The lease is released and no process is left on cb87.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: in_progress
+    actuals:
+      start: '2026-10-09T12:46:00-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: TY09
+    title: '[MOT-3356] Studio Ref2VA close-face finals'
+    section: Motion
+    task_type: gpu_render
+    objective: Mac Studio Ref2VA final-tier close and medium face shots (identity video). One GPU job
+      at a time; the Studio is also a 24/7 render node (November finals).
+    inputs:
+      - artifact: TY03-stills-v4-selects.json
+        from_task: TY03
+    outputs:
+      - artifact: TY09-studio-ref2va-manifest.json
+        type: json
+    depends_on:
+      - TY03
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 4
+    required_capabilities:
+      - gpu_studio
+    assignee: gpu-studio
+    acceptance_criteria:
+      - Studio final-tier face shots are delivered with sha256 sums.
+      - Identity matches the locked Emily reference.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: in_review
+    actuals:
+      start: '2026-10-09T04:30:00-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: TY10
+    title: '[MOT-3356] Assemble Not a Drop with the approved VO'
+    section: Assembly
+    task_type: video_assembly
+    objective: 'Rebuilt cut: native 9:16, approved VO on the beats in TOYOTA_VO_SCRIPTS.md, ambience bed,
+      J/L cuts, end tag about 4 s, rate-only offer end tag with Nov 2, 2026 and 712-792-5000. Must pass
+      edit_brief_check.py.'
+    inputs:
+      - artifact: TY05-vo-listen-notes.md
+        from_task: TY05
+      - artifact: TY06-nd-finals-manifest.json
+        from_task: TY06
+      - artifact: TY09-studio-ref2va-manifest.json
+        from_task: TY09
+    outputs:
+      - artifact: TY10-NotADrop-VO-master.mp4
+        type: video
+    depends_on:
+      - TY05
+      - TY06
+      - TY09
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 3.5
+    required_capabilities:
+      - video_assembly
+    assignee: toyota-producer
+    acceptance_criteria:
+      - The cut uses the approved VO lines and the final-tier takes.
+      - edit_brief_check.py reports 0 errors.
+      - End tag shows the offer exactly as OFFER-FACTS, legible at 390 px.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 5.25
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY11
+    title: '[MOT-3356] Assemble The Group Chat with the approved VO'
+    section: Assembly
+    task_type: video_assembly
+    objective: Rebuilt cut with approved VO unchanged and model audio muted except Emily's on-camera line.
+    inputs:
+      - artifact: TY05-vo-listen-notes.md
+        from_task: TY05
+      - artifact: TY07-gc-finals-manifest.json
+        from_task: TY07
+      - artifact: TY09-studio-ref2va-manifest.json
+        from_task: TY09
+      - artifact: TY16-price-beside-apr-ruling.md
+        from_task: TY16
+    outputs:
+      - artifact: TY11-GroupChat-VO-master.mp4
+        type: video
+    depends_on:
+      - TY05
+      - TY07
+      - TY09
+      - TY16
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 3.5
+    required_capabilities:
+      - video_assembly
+    assignee: toyota-producer
+    acceptance_criteria:
+      - The cut uses the approved VO lines and the final-tier takes.
+      - edit_brief_check.py reports 0 errors.
+      - End tag shows the offer and price exactly as ruled by Spencer, legible at 390 px.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 5.25
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY12
+    title: '[MOT-3356] Assemble Feet Off with the new approved VO'
+    section: Assembly
+    task_type: video_assembly
+    objective: Rebuilt cut with the new Crawl Control VO, so the story reads without sound-on guessing.
+    inputs:
+      - artifact: TY05-vo-listen-notes.md
+        from_task: TY05
+      - artifact: TY08-fo-finals-manifest.json
+        from_task: TY08
+      - artifact: TY09-studio-ref2va-manifest.json
+        from_task: TY09
+      - artifact: TY16-price-beside-apr-ruling.md
+        from_task: TY16
+    outputs:
+      - artifact: TY12-FeetOff-VO-master.mp4
+        type: video
+    depends_on:
+      - TY05
+      - TY08
+      - TY09
+      - TY16
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 3.5
+    required_capabilities:
+      - video_assembly
+    assignee: toyota-producer
+    acceptance_criteria:
+      - The cut uses the approved Feet Off VO lines and the final-tier takes.
+      - edit_brief_check.py reports 0 errors.
+      - End tag shows the offer and price exactly as ruled by Spencer, legible at 390 px.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 5.25
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY13
+    title: '[MOT-3356] Frame-by-frame QC: Not a Drop'
+    section: QC
+    task_type: frame_qc
+    objective: 'Every shot at full size: anatomy, self-intersection, hands, head ratio, truck scale, tailgate
+      state, sign text, eyelines, walk pace about 1.3 m/s, parked cars static; lip sync on every word;
+      jump cuts; line sensitivity (no aging/popularity, no AI line); loudness -14 LUFS.'
+    inputs:
+      - artifact: TY10-NotADrop-VO-master.mp4
+        from_task: TY10
+    outputs:
+      - artifact: TY13-NotADrop-frame-qc.md
+        type: markdown
+    depends_on:
+      - TY10
+    estimate_hours:
+      optimistic: 1
+      likely: 1.5
+      pessimistic: 3
+    required_capabilities:
+      - frame_qc
+    assignee: accuracy
+    acceptance_criteria:
+      - Every shot was checked frame by frame at full size and logged.
+      - Lip sync, walk pace and parked-car stillness pass.
+      - Offer, price and fine print match OFFER-FACTS.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY14
+    title: '[MOT-3356] Frame-by-frame QC: The Group Chat'
+    section: QC
+    task_type: frame_qc
+    objective: 'Same bar: USB-C port locations true to the pressroom photos, non-speaking friends, Emily''s
+      one on-camera line in sync.'
+    inputs:
+      - artifact: TY11-GroupChat-VO-master.mp4
+        from_task: TY11
+    outputs:
+      - artifact: TY14-GroupChat-frame-qc.md
+        type: markdown
+    depends_on:
+      - TY11
+    estimate_hours:
+      optimistic: 1
+      likely: 1.5
+      pessimistic: 3
+    required_capabilities:
+      - frame_qc
+    assignee: accuracy
+    acceptance_criteria:
+      - Every shot was checked frame by frame at full size and logged.
+      - Port locations, lip sync and muted model audio pass.
+      - Offer, price and fine print match OFFER-FACTS.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY15
+    title: '[MOT-3356] Frame-by-frame QC: Feet Off'
+    section: QC
+    task_type: frame_qc
+    objective: 'Same bar: Crawl Control push pad on the lower-console dial, 4L, no claim the truck steers
+      itself, no speed or grade numbers.'
+    inputs:
+      - artifact: TY12-FeetOff-VO-master.mp4
+        from_task: TY12
+    outputs:
+      - artifact: TY15-FeetOff-frame-qc.md
+        type: markdown
+    depends_on:
+      - TY12
+    estimate_hours:
+      optimistic: 1
+      likely: 1.5
+      pessimistic: 3
+    required_capabilities:
+      - frame_qc
+    assignee: accuracy
+    acceptance_criteria:
+      - Every shot was checked frame by frame at full size and logged.
+      - Crawl Control claim says only what the owner's manual supports.
+      - Offer, price and fine print match OFFER-FACTS.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 4.5
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY16
+    title: Confirm the Group Chat and Feet Off end tags follow Spencer's standing price rule
+    section: QC
+    task_type: fact_check
+    objective: 'Not a Spencer item (coordinator, 2026-10-09). Standing rule: never put a cash-netted price
+      beside a special APR. Group Chat ($48,991) and Feet Off ($59,448) have no cash rebate netted, so
+      price plus APR is allowed; the Tundra end tag is rate-only. Accuracy confirms each end tag and email
+      preheader against the live VDP and OFFER-FACTS, and checks the wording of the stored rule (''never
+      beside a special APR unless the bulletin says the cash stacks'') against this reading before TY11
+      and TY12 are assembled.'
+    inputs: []
+    outputs:
+      - artifact: TY16-price-beside-apr-ruling.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 0.25
+      likely: 0.5
+      pessimistic: 1
+    required_capabilities:
+      - fact_check
+    assignee: accuracy
+    acceptance_criteria:
+      - Group Chat and Feet Off show a live-VDP price with no Toyota cash netted into it.
+      - The Tundra end tag is rate-only with no price.
+      - The reading of Spencer's standing price rule is recorded with its source.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 1.5
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: "2026-10-09T13:40:00-05:00"
+      end: "2026-10-09T13:37:30-05:00"
+      hours: 0.75
+      attempts: 1
+  - id: TY17
+    title: '[MOT-3356] Coordinator full-size QC of all three rebuilt cuts'
+    section: QC
+    task_type: full_size_qc
+    objective: 'Coordinator watches each cut at full size as a viewer, with sound: story reads, voice
+      locks, feet, eyelines, jump cuts, end tag at phone size. Nothing reaches Spencer before this passes.'
+    inputs:
+      - artifact: TY13-NotADrop-frame-qc.md
+        from_task: TY13
+      - artifact: TY14-GroupChat-frame-qc.md
+        from_task: TY14
+      - artifact: TY15-FeetOff-frame-qc.md
+        from_task: TY15
+    outputs:
+      - artifact: TY17-coordinator-full-size-qc.md
+        type: markdown
+    depends_on:
+      - TY13
+      - TY14
+      - TY15
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - full_size_qc
+    assignee: accuracy
+    acceptance_criteria:
+      - All three cuts passed a full-size viewing with sound by the coordinator.
+      - Every defect found is fixed or listed for Spencer.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY18
+    title: '[MOT-3356] Spencer final approval of the three Toyota videos'
+    section: Approvals
+    task_type: approval_gate
+    objective: 'Spencer watches the three rebuilt cuts and approves, or names changes. Open choices to
+      carry: the Tundra TRD bed decal is not rendered; the 4Runner dial labels are soft (real-pixel patch
+      available).'
+    inputs:
+      - artifact: TY17-coordinator-full-size-qc.md
+        from_task: TY17
+    outputs:
+      - artifact: TY18-final-video-approval.md
+        type: markdown
+    depends_on:
+      - TY17
+    estimate_hours:
+      optimistic: 0.25
+      likely: 4
+      pessimistic: 24
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer's explicit approval of each cut and the timestamp are recorded.
+      - The approved file names and sha256 sums are recorded.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 36.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY19
+    title: '[MOT-3356] Schedule the Toyota posts natively (FB scheduled reel, YT private plus publishAt,
+      IG one-shot)'
+    section: Publish
+    task_type: native_publish
+    objective: 'native-publish recipe after Spencer''s approval: captions and tracked links, landing-page
+      200 check, register in posts_registry.json, sync Google Calendar. No Slack approval card.'
+    inputs:
+      - artifact: TY18-final-video-approval.md
+        from_task: TY18
+    outputs:
+      - artifact: TY19-schedule-receipt.md
+        type: markdown
+    depends_on:
+      - TY18
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - native_publish
+    assignee: toyota-producer
+    acceptance_criteria:
+      - Each approved cut is scheduled natively on the approved platforms and dates.
+      - Tracked links return 200 and are registered for the weekly report.
+      - Google Calendar shows every scheduled post.
+    risk: high
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY20
+    title: '[MOT-3449] Toyota model-targeted subsets, holdouts, and calendar'
+    section: Email
+    task_type: audience_segments
+    objective: 'Rory v3: tundra-trucks 961 (holdout 96), gh-family 1,049 (105), 4runner-suv 1,281 (128),
+      aggregates only; calendar caps (550 a day Chevy plus Toyota, 2 per person per 7 days); Toyota runs
+      10/13 to 10/29.'
+    inputs: []
+    outputs:
+      - artifact: TY20-segments-v3.json
+        type: json
+    depends_on: []
+    estimate_hours:
+      optimistic: 2
+      likely: 4
+      pessimistic: 8
+    required_capabilities:
+      - audience_segments
+    assignee: rory
+    acceptance_criteria:
+      - Segment sizes and holdouts are recorded as aggregates only, with no contact data.
+      - The calendar keeps Chevy plus Toyota at or under 550 a day and Toyota inside 10/13 to 10/29.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 12.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: '2026-10-08T16:55:00-05:00'
+      end: '2026-10-08T20:40:00-05:00'
+      hours: 1.5
+      attempts: 3
+  - id: TY21
+    title: '[MOT-3450] Toyota emails fixed to the house standard (v4 packet)'
+    section: Email
+    task_type: email_design
+    objective: 'Emily task t_620b39c4 on spark-fa5a. Fix: footer address 1526 Le Clark Rd, FNAME and TOYVEH
+      merge fields with fallbacks, owner variants, remove tracking-reveal and ''no asterisks'' copy, no
+      tier names in fine print. Sender noreply@motorinnmail.com, UTMs on every link, top subject plus
+      2 alternates, 10 percent holdout (none under 100), follow-ups fu-nonopen/fu-open/fu-hot/fu-click.'
+    inputs:
+      - artifact: TY20-segments-v3.json
+        from_task: TY20
+    outputs:
+      - artifact: TY21-toyota-email-packet-v4.md
+        type: markdown
+    depends_on:
+      - TY20
+    estimate_hours:
+      optimistic: 2
+      likely: 4
+      pessimistic: 8
+    required_capabilities:
+      - email_design
+      - copy_drafting
+    assignee: emily
+    acceptance_criteria:
+      - Every footer shows 1526 Le Clark Rd and every email has working FNAME and TOYVEH merge fields
+        with fallbacks.
+      - The full follow-up set and owner variants exist, with UTMs on every link.
+      - No copy reveals tracking, and no tier names appear in fine print.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 12.0
+      usd: 0
+    max_retries: 2
+    status: in_progress
+    actuals:
+      start: '2026-10-08T22:51:00-05:00'
+      end: null
+      hours: null
+      attempts: 2
+  - id: TY22
+    title: '[MOT-3266] Toyota email compliance QA against the QRG and OFFER-FACTS'
+    section: Email
+    task_type: copy_compliance
+    objective: 'Line-by-line: APR, term, trim eligibility, exclusions, either/or cash rule, doc fee, 11/2/2026
+      end date, live VDP price and stock still active.'
+    inputs:
+      - artifact: TY21-toyota-email-packet-v4.md
+        from_task: TY21
+    outputs:
+      - artifact: TY22-toyota-email-compliance-qa.md
+        type: markdown
+    depends_on:
+      - TY21
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 4
+    required_capabilities:
+      - copy_compliance
+    assignee: rory-copy-seo
+    acceptance_criteria:
+      - Every APR, term, price and end date matches the QRG and the live VDP.
+      - Cash and APR are never presented as combinable.
+      - No unsupported history, popularity or aging language appears.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY23
+    title: '[MOT-3450] Coordinator full-size QC of the Toyota email packet'
+    section: Email
+    task_type: full_size_qc
+    objective: 'Open every send file and every follow-up at phone width: address, merge fields, UTMs,
+      fine print, links, holdout and suppression, subject picks.'
+    inputs:
+      - artifact: TY21-toyota-email-packet-v4.md
+        from_task: TY21
+      - artifact: TY22-toyota-email-compliance-qa.md
+        from_task: TY22
+    outputs:
+      - artifact: TY23-toyota-email-coordinator-qc.md
+        type: markdown
+    depends_on:
+      - TY21
+      - TY22
+    estimate_hours:
+      optimistic: 0.5
+      likely: 1
+      pessimistic: 2
+    required_capabilities:
+      - full_size_qc
+      - fact_check
+    assignee: accuracy
+    acceptance_criteria:
+      - Every send file and follow-up was opened at phone width and passes.
+      - Links resolve with the correct UTMs and the sender is noreply@motorinnmail.com.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 3.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY24
+    title: Spencer picks the Chevy and Toyota email subject lines
+    section: Approvals
+    task_type: approval_gate
+    objective: reports/SUBJECT_PICKS_for_Spencer.md. Spencer replies 'approve all' or names the ones to
+      change.
+    inputs: []
+    outputs:
+      - artifact: TY24-subject-picks-approval.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 0.1
+      likely: 2
+      pessimistic: 12
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer's explicit pick for each subject line and the timestamp are recorded.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 18.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: "2026-10-09T09:17:00-05:00"
+      end: "2026-10-09T13:00:00-05:00"
+      hours: 0.25
+      attempts: 1
+  - id: TY25
+    title: '[MOT-3451] Send, poll, follow-up and report automation cloned for Toyota (build only)'
+    section: Email
+    task_type: send_automation
+    objective: 'Dev task t_362e81fc: clone the tire system (send, engagement poll, follow-up send, campaign
+      report) for Chevy and Toyota. Presend live-VDP price check PR #777 and data-driven runtime PR #778
+      passed Eve and are held unmerged until Spencer''s packet OK. Build only; arms nothing.'
+    inputs: []
+    outputs:
+      - artifact: TY25-send-automation-pr.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 3
+      likely: 6
+      pessimistic: 12
+    required_capabilities:
+      - send_automation
+      - coding
+    assignee: dev
+    acceptance_criteria:
+      - Send, poll, follow-up and report jobs exist for Toyota and arm nothing.
+      - The presend live-VDP price check blocks a stale price.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 18.0
+      usd: 0
+    max_retries: 2
+    status: in_review
+    actuals:
+      start: '2026-10-08T17:00:00-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: TY26
+    title: Spencer approves the final Toyota email packet
+    section: Approvals
+    task_type: approval_gate
+    objective: 'One final packet states exactly what Spencer is approving: subjects, send files, follow-up
+      set, segments and holdouts, send dates. Nothing is sent without this approval.'
+    inputs:
+      - artifact: TY20-segments-v3.json
+        from_task: TY20
+      - artifact: TY23-toyota-email-coordinator-qc.md
+        from_task: TY23
+      - artifact: TY24-subject-picks-approval.md
+        from_task: TY24
+    outputs:
+      - artifact: TY26-toyota-email-packet-approval.md
+        type: markdown
+    depends_on:
+      - TY20
+      - TY23
+      - TY24
+    estimate_hours:
+      optimistic: 0.25
+      likely: 4
+      pessimistic: 24
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer's explicit approval of the final Toyota email packet and the timestamp are recorded.
+      - The approved packet version and sha256 are recorded.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 36.0
+      usd: 0
+    max_retries: 2
+    status: done
+    actuals:
+      start: "2026-10-08T17:00:00-05:00"
+      end: "2026-10-08T17:10:00-05:00"
+      hours: 0.1
+      attempts: 1
+  - id: TY27
+    title: 'Arm the Toyota sends: first send 10/13 at 13:00 CT'
+    section: Email
+    task_type: email_send_ops
+    objective: 'Merge PR #777/#778 after the packet OK, then schedule the Mailchimp sends and arm the
+      poll, follow-up and report launchd jobs for the first send 2026-10-13 13:00 CT, at most 250 a day
+      per the calendar.'
+    inputs:
+      - artifact: TY26-toyota-email-packet-approval.md
+        from_task: TY26
+      - artifact: TY25-send-automation-pr.md
+        from_task: TY25
+      - artifact: TY31-toyota-dry-run-pass.md
+        from_task: TY31
+    outputs:
+      - artifact: TY27-toyota-arm-receipt.md
+        type: markdown
+    depends_on:
+      - TY26
+      - TY25
+      - TY31
+    estimate_hours:
+      optimistic: 1
+      likely: 2
+      pessimistic: 4
+    required_capabilities:
+      - email_send_ops
+    assignee: dev
+    acceptance_criteria:
+      - The first Toyota send is scheduled for 2026-10-13 13:00 CT.
+      - The 10 percent holdout, suppression and UTMs are in place on the scheduled send.
+      - The poll, follow-up and report jobs are armed.
+    risk: high
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY28
+    title: Verify the Toyota sends are armed
+    section: Email
+    task_type: verification
+    objective: Read back the Mailchimp schedule and the launchd jobs; compare to the approved packet.
+    inputs:
+      - artifact: TY27-toyota-arm-receipt.md
+        from_task: TY27
+    outputs:
+      - artifact: TY28-toyota-arm-verification.md
+        type: markdown
+    depends_on:
+      - TY27
+    estimate_hours:
+      optimistic: 0.25
+      likely: 0.5
+      pessimistic: 1
+    required_capabilities:
+      - verification
+    assignee: accuracy
+    acceptance_criteria:
+      - The scheduled send time, audience, holdout and subject match the approved packet.
+      - The follow-up and report jobs are loaded.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 1.5
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY29
+    title: '[MOT-3451] Toyota attribution report job (opens, clicks, VDP by UTM, holdout vs mailed)'
+    section: Reporting
+    task_type: reporting_ops
+    objective: 'Weekly Monday report to Spencer: opens, clicks, VDP visits by UTM, holdout versus mailed,
+      follow-up performance. Aggregates only; separates exposure lift from sale contribution.'
+    inputs:
+      - artifact: TY27-toyota-arm-receipt.md
+        from_task: TY27
+    outputs:
+      - artifact: TY29-toyota-report-job.md
+        type: markdown
+    depends_on:
+      - TY27
+    estimate_hours:
+      optimistic: 2
+      likely: 3
+      pessimistic: 6
+    required_capabilities:
+      - send_automation
+      - coding
+    assignee: dev
+    acceptance_criteria:
+      - The report job runs on the schedule and posts aggregates only.
+      - The report separates exposure lift from sale contribution.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 9.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY30
+    title: 'Milestone: Toyota emails armed before the first send'
+    section: Milestones
+    task_type: milestone
+    objective: Marker. Toyota emails are verified armed ahead of 2026-10-13 13:00 CT.
+    inputs:
+      - artifact: TY28-toyota-arm-verification.md
+        from_task: TY28
+    outputs:
+      - artifact: TY30-milestone.md
+        type: markdown
+    depends_on:
+      - TY28
+    estimate_hours:
+      optimistic: 0
+      likely: 0
+      pessimistic: 0
+    required_capabilities:
+      - coordination
+    assignee: coordinator
+    acceptance_criteria:
+      - Toyota emails are verified armed ahead of the first send.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 0.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY31
+    title: Fix the 10/13 dry-run failures (segment tags, holdouts, send caps) for the Toyota sends
+    section: Email
+    task_type: send_automation
+    objective: 'Shared with Chevy: the segment rebuild, the caps PR and the dry-run re-run are tracked
+      as CH20, CH21 and CH22 in the Chevy plan. This task closes when that dry run passes for the Toyota
+      subsets too.'
+    inputs: []
+    outputs:
+      - artifact: TY31-toyota-dry-run-pass.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 2
+      likely: 5
+      pessimistic: 10
+    required_capabilities:
+      - send_automation
+      - coding
+    assignee: dev
+    acceptance_criteria:
+      - The dry run passes for the Toyota subsets with tags present, holdouts filled and caps enforced.
+    risk: low
+    reversible: true
+    needs_human: false
+    budget:
+      tokens: 0
+      hours: 15.0
+      usd: 0
+    max_retries: 2
+    status: in_progress
+    actuals:
+      start: '2026-10-09T13:31:49-05:00'
+      end: null
+      hours: null
+      attempts: 1
+  - id: TY32
+    title: Run the one-line SSH config command on Mac mini 2
+    section: Spencer actions
+    task_type: human_action
+    objective: Spencer runs the one-line SSH config command the coordinator sent him, on Mac mini 2.
+    inputs: []
+    outputs:
+      - artifact: TY32-ssh-config-confirmation.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 0.1
+      likely: 0.25
+      pessimistic: 4
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer confirms the command ran on Mac mini 2.
+    risk: low
+    reversible: true
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0
+  - id: TY33
+    title: Delete the leftover customer-data files in Rory's cache on Mac mini 2
+    section: Spencer actions
+    task_type: human_action
+    objective: Spencer runs the delete command the coordinator sent him, to remove the leftover personal-data
+      files in Rory's cache on Mac mini 2.
+    inputs: []
+    outputs:
+      - artifact: TY33-rory-cache-cleanup-confirmation.md
+        type: markdown
+    depends_on: []
+    estimate_hours:
+      optimistic: 0.1
+      likely: 0.25
+      pessimistic: 4
+    required_capabilities:
+      - human_approval
+    assignee: spencer
+    acceptance_criteria:
+      - Spencer confirms the leftover files are deleted from Rory's cache on Mac mini 2.
+    risk: low
+    reversible: false
+    needs_human: true
+    budget:
+      tokens: 0
+      hours: 6.0
+      usd: 0
+    max_retries: 2
+    status: planned
+    actuals:
+      start: null
+      end: null
+      hours: null
+      attempts: 0

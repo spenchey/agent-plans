@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH06
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:32:02-05:00"
+notes: ""
+signature: null
+attempt: 1
+criteria:
+  - text: "Spencer's explicit approval of the Story B cut and the timestamp are recorded."
+    met: true
+  - text: "The approved file names and sha256 sums are recorded."
+    met: true
+artifacts:
+  - artifact: "CH06-story-b-approval.md"
+    sha256: c73b13f306242604ebeea996a8a6783c3d1471d8e40efde793c5469cb36dbccc
+    uri: "pilot/evidence/CH06-story-b-approval.md"

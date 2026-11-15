@@ -1,0 +1,20 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: chevy-october-2026
+task_id: CH01
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:37:37-05:00"
+notes: "Re-attested at the real time; the first stamp of 13:55 CT was entered ahead of the clock. Same criteria, same file hashes."
+signature: null
+attempt: 3
+criteria:
+  - text: "All six stills pass coordinator full-size QC."
+    met: true
+  - text: "STILLS-QC.md records the rejects and the fixes."
+    met: true
+artifacts:
+  - artifact: "CH01-STILLS-QC.md"
+    sha256: "67222ad0a424166a0786bc1ef82b105a14a7efafbb534fda29ffbed886f279d2"
+    uri: "/Users/spenchey/clawd/dealership/marketing/2026-10-chevy-campaign/creative/story-b/rebuild-v3/stills/STILLS-QC.md"

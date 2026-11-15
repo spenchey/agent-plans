@@ -1,0 +1,22 @@
+# Accuracy attestation. `status: done` requires verdict pass and reviewer accuracy.
+# Written by `python -m planner attest-done`. signature is not verified yet.
+schema_version: 1
+plan_id: toyota-october-2026
+task_id: TY16
+verdict: pass
+reviewer: accuracy
+timestamp: "2026-10-09T13:37:30-05:00"
+notes: ""
+signature: null
+attempt: 1
+criteria:
+  - text: "Group Chat and Feet Off show a live-VDP price with no Toyota cash netted into it."
+    met: true
+  - text: "The Tundra end tag is rate-only with no price."
+    met: true
+  - text: "The reading of Spencer's standing price rule is recorded with its source."
+    met: true
+artifacts:
+  - artifact: "TY16-price-beside-apr-ruling.md"
+    sha256: b47a479c9dd3f533b101898d3dfca2c181d082b00ef3135be029a644474f4e71
+    uri: "pilot/evidence/TY16-price-rule-check.md"
